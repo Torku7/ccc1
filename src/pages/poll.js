@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../css/ccc_poll.css";
+import "../css/poll.css";
 
 function GenrePoll() {
   const [selectedGenres, setSelectedGenres] = useState([]);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../css/ccc_register.css";
+import "../css/register.css";
 
 function Register() {
   const [userId, setUserId] = useState("");
