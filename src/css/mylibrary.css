@@ -408,6 +408,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column; /* 추가한 부분, 세로 방향으로 요소 정렬 */
     margin: auto;
     gap: 1em;
     font-weight: 600;

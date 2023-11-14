@@ -1,70 +1,96 @@
-import React, { useState } from 'react';
-import './MyLibrary.css'; 
-import logo from './images/logo.png'; 
-import search from './images/search.png';
-import books from './images/books.png';
-import user from './images/user.png';
-import upArrow from './images/up-arrow.png';
-import ghost from './images/ghost.png';
+import React, { useState, useEffect, useRef } from 'react';
+import '../css/mylibrary.css';
+import { Header } from '../common/Header';
 
 const MyLibrary = () => {
-    const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
-    const [id, setId] = useState("");
-    const [gender, setGender] = useState("");
-    const [currentPasswordInput, setCurrentPasswordInput] = useState("");
-    const [newpasswordInput, setNewpasswordInput] = useState("");
-    const [newpasswordcheck, setNewpasswordcheck] = useState("");
-    const [genre, setGenre] = useState("");
+    const [scrollPosition, setScrollPosition] = useState(0);
 
-    const handlePasswordSubmit = () => {
-        // Handle password submit here
+    const headerNormalRef = useRef(null);
+    const headerFixedRef = useRef(null);
+
+    const handleScroll = () => {
+        setScrollPosition(window.pageYOffset);
     };
 
-    const handlePasswordChange = () => {
-        // Handle password change here
-    };
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    const headerNormalHeight = document.querySelector('.header_normal')?.offsetHeight || 0;
 
     return (
-        <div className="main_container">
-            <header className="header_normal">
-                <div className="header_inner" id="inner1">
-                    <div className="logo">
-                        <a href="ccc_main_log.html">
-                            <img src={logo} alt="로고" />
-                        </a>
+        <div>
+            <Header />
+            <a href="#" className="top-button" onClick={() => window.scrollTo(0, 0)}>
+                <img src="ccc_image/up-arrow.png" alt="Top 버튼" />
+            </a>
+            <main>
+                <div className="libraryAll">
+                    <div className="library">
+                        <span id="libraryTitle">내 서재</span>
+                        <span id="bookCount">{/* 동적으로 책의 수를 표시하는 코드 */}</span>
                     </div>
-                    <div className="search_wrap">
-                        <div className="search_box">
-                            <div className="search_">
-                                <input type="text" id="search" name="search" placeholder="안녕나는검색창" className="input_text"
-                                    value="" maxLength="20" autocapitalize="off" />
-                                <span>
-                                    <button type="search_button" id="searchbooks">
-                                        <img src={search} alt="search_button" />
+
+                    <div className="library-convert">
+                        <div className="editAll">
+                            <button id='selectAllBtn' style={{display:'none'}}>전체 선택</button>
+                            <button id='selectAllcancelBtn' style={{display:'none'}}>전체 선택 취소</button>
+                            <div className="edit">
+                                <button id='editBtn'>편집</button>
+                                <button id='deleteBtn' style={{display:'none'}}>삭제</button>
+                                <button id='cancelBtn' style={{display:'none'}}>취소</button>
+                            </div>
+                        </div>
+
+                        <div className="listAll">
+                            <div className="library-list">
+                                <div className="library-cover">
+                                    <button className="listCoverBtn" id='listCoverBtn'>
+                                        <img src="images/ccc_library/list-2.png" alt="Image 1" id='buttonImage1'/>
                                     </button>
-                                </span>
+                                </div>
+                                <div className="library-view">
+                                    <button className="listViewBtn" id='listViewBtn'>
+                                        <img src="images/ccc_library/grid-1.png" alt="Image 2" id='buttonImage2'/>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className="menu_wrap">
-                        <div className="library_icon"> 
-                            <button type="books_button" id="mybooksmove">
-                                <img src={books} alt="search_button" />
-                            </button> 
+                    
+                    <div className="concontainer">
+                        <div className="container1">
+                            <div className="book-container1" id="bookContainer">
+                                {/* 동적으로 생성될 책 항목 */}
+                            </div>
                         </div>
-                        <div className="mypage_icon">
-                            <button className="user_button" id="userpagemove1">
-                                <img src={user} alt="search_button" />
-                            </button>
+                        <div className="container2">
+                            <div className="book-container2" id="bookContainer2">
+                                {/* 동적으로 생성될 책 항목 */}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </header>
-            <header className="header_fixed">
-                {/* Similar to the above header structure */}
-            </header>
-            {/* Rest of the code follows a similar pattern */}
+            </main>
+            <div 
+                style={{ display: scrollPosition > headerNormalHeight ? 'none' : 'block' }} 
+                className="header_normal" 
+                ref={headerNormalRef} 
+            ></div>
+            <div 
+                style={{ display: scrollPosition > headerNormalHeight ? 'block' : 'none' }} 
+                className="header_fixed" 
+                ref={headerFixedRef} 
+            ></div>
+
+            {scrollPosition > headerNormalHeight ? (
+                <div style={{ display: 'none' }} className="header_normal"></div>
+            ) : (
+                <div style={{ display: 'block' }} className="header_normal"></div>
+            )}
         </div>
     );
 };
