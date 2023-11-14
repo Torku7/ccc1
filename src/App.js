@@ -2,6 +2,8 @@ import './App.css';
 import Login from './pages/Login';
 import Register from './pages/register'; 
 import Poll from'./pages/poll';
+import BookPage from './pages/bookpage';
+import {Header} from './common/Header';
 
 function App() {
   return (
@@ -10,6 +12,8 @@ function App() {
       <h1>책책책 프로젝트 리액트 이관</h1>
       <Login />
       <Register />
+      <Header/>
+      <BookPage />
       {/* <Poll /> */}
     </div>
   );
